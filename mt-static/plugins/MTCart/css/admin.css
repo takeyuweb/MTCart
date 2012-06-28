@@ -1,0 +1,8 @@
+#manage_mtcart_goods table.variations {
+   border-collapse: collapse;
+}
+
+#manage_mtcart_goods table.variations th, #manage_mtcart_goods table.variations td {
+   border: 1px solid #C0C6C9;
+   padding: 5px 10px;
+}

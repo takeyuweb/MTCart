@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <title><$MTBlogName escape="html"$><__trans phrase="Shopping Cart" /></title>
+  </head>
+  <body>
+    <mt:If name="request.added">
+      <div class="notice added"><__trans phrase="app.message.request.added" /></div>
+    </mt:If>
+    <mt:If name="request.removed">
+      <div class="notice removed"><__trans phrase="app.message.request.removed" /></div>
+    </mt:If>
+    <mt:If name="request.updated">
+      <div class="notice updated"><__trans phrase="app.message.request.updated" /></div>
+    </mt:If>
+    <mt:If name="request.refreshed">
+      <div class="notice refreshed"><__trans phrase="app.message.request.refreshed" /></div>
+    </mt:If>
+    <mt:If name="request.reset">
+      <div class="notice reset"><__trans phrase="app.message.request.reset" /></div>
+    </mt:If>
+    <mt:CartEntries>
+      <mt:EntriesHeader>
+        <form action="<$MTCartPath$><$MTCartScript$>" method="post">
+          <div style="line-height: 0; height: 0; display: inline; margin: 0; padding: 0;"><input type="hidden" name="blog_id" value="<$MTGetVar name='blog_id' escape='html'$>" /><input type="hidden" name="return_to" value="<$MTGetVar name='return_to' escape='html'$>" /><input type="hidden" name="magic_token" value="<$MTGetVar name='magic_token' escape='html'$>" /></div>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th><__trans phrase="app.label.price" /></th>
+                <th><__trans phrase="app.label.amount" /></th>
+                <th><__trans phrase="app.label.subtotal" /></th>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+      </mt:EntriesHeader>
+              <tr>
+                <td><a href="<$MTEntryPermalink escape='html'$>"><$MTEntryTitle escape="html"$></a></td>
+                <td><$MTEntryPrice escape="html" numify="1"$></td>
+                <td>
+                  <$MTCartEntryAmountSelector$>
+                </td>
+                <td><$MTCartEntrySubtotal numify="1"$></td>
+                <td></td>
+              </tr>
+      <mt:EntriesFooter>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><$MTCartSubtotal numify="1"$></td>
+                <td>
+                  <input id="update_button" type="submit" name="__mode" value="update" style="display: none; height: 0; width: 0;"/>
+                  <input type="button" onclick="document.getElementById('update_button').click(); return true;" value="<__trans phrase='app.button.update' />" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <input id="sign_in_button" type="submit" name="__mode" value="sign_in" style="display: none; height: 0; width: 0;"/>
+            <input type="button" onclick="document.getElementById('sign_in_button').click(); return true;" value="<__trans phrase='app.button.sign_in' />" />
+            
+          </div>
+        </form>
+      </mt:EntriesFooter>
+      
+    <mt:Else>
+      <p><__trans phrase="app.message.cart_empty" /></p>
+    </mt:CartEntries>
+
+    <mt:If name="return_to">
+      <a href="<$MTGetVar name='return_to' excape='html'$>"><__trans phrase="app.label.return_to" /></a>
+    </mt:If>
+  </body>
+</html>
+

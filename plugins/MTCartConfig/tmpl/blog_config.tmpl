@@ -1,0 +1,8 @@
+<mtapp:setting
+   id="enable"
+   label="<__trans phrase='config.label.enable'>">
+  <input id="enable_1" type="radio" name="enable" value="1"<mt:If name="enable"> checked="checked"</mt:If> />
+  <label for="enable_1"><__trans phrase="Yes" /></label>
+  <input id="enable_0" type="radio" name="enable" value="0"<mt:Unless name="enable"> checked="checked"</mt:Unless> />
+  <label for="enable_0"><__trans phrase="No" /></label>
+</mtapp:setting>

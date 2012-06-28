@@ -1,0 +1,68 @@
+name: MTCart Pack
+id: MTCart
+key: mtcart
+author_name: Yuichi Takeuchi
+author_link: http://takeyu-web.com/
+version: 0.0.1
+schema_version: 0.008
+l10n_class: MTCart::L10N
+
+config_settings:
+  CartPath:
+    default: ""
+  CartScript:
+    default: mt-cart.cgi
+  CartCookie:
+    default: mtcart_cart
+  CartCookieSecret:
+    default: ""
+  CartSessionTimeout:
+    default: 1209600
+  CartSessionPath:
+    default: /
+
+applications:
+  mtcart:
+    methods:
+      show: $mtcart::MT::App::MTCart::show
+      add: $mtcart::MT::App::MTCart::add
+      update: $mtcart::MT::App::MTCart::update
+      sign_in: $mtcart::MT::App::MTCart::sign_in
+      do_sign_in: $mtcart::MT::App::MTCart::sign_in
+      sign_up: $mtcart::MT::App::MTCart::sign_up
+      do_sign_up: $mtcart::MT::App::MTCart::sign_up
+      purchase: $mtcart::MT::App::MTCart::purchase
+
+object_types:
+  entry:
+    on_sale:
+      type: smallint
+      revisioned: 1
+    price:
+      type: integer
+      revisioned: 1
+  mtcart.entry: MTCart::Entry
+  mtcart.user: MTCart::User
+
+callbacks:
+  template_source.edit_entry: $mtcart::MTCart::Callbacks::_hdlr_template_source_edit_entry
+  template_param.edit_entry: $mtcart::MTCart::Callbacks::_hdlr_template_param_edit_entry
+  cms_post_save.entry: $mtcart::MTCart::Callbacks::_hdlr_cms_post_save_entry
+
+tags:
+  block:
+    CartEntries: $mtcart::MTCart::Tags::_hdlr_cart_entries
+    AddToCartForm: $mtcart::MTCart::Tags::_hdlr_add_to_cart_form
+  function:
+    CartPath: $mtcart::MTCart::Tags::_hdlr_cart_path
+    CartScript: $mtcart::MTCart::Tags::_hdlr_cart_script
+    EntryPrice: $mtcart::MTCart::Tags::_hdlr_entry_price
+    # MTCart専用タグ
+    # カート関連
+    CartEntryAmount: $mtcart::MTCart::Tags::_hdlr_cart_entry_amount
+    CartEntryAmountSelector: $mtcart::MTCart::Tags::_hdlr_cart_entry_amount_selector
+    CartEntrySubtotal: $mtcart::MTCart::Tags::_hdlr_cart_entry_subtotal
+    CartSubtotal: $mtcart::MTCart::Tags::_hdlr_cart_subtotal
+    # 顧客関連
+    CartUserRealName: $mtcart::MTCart::Tags::_hdlr_cart_user_realname
+
