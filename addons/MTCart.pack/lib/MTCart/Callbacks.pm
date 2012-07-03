@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use utf8;
 
+use MTCart::Util qw( get_config );
+
 our $plugin = MT->component( 'MTCart' );
 our $config_plugin = MT->component( 'MTCartConfig' );
 
@@ -17,8 +19,7 @@ sub _hdlr_template_param_edit_entry {
 
     my $blog_id = $app->blog ? $app->blog->id : undef;
 
-    return unless $blog_id &&
-      $config_plugin->get_config_value( 'enable', "blog:$blog_id" );
+    return unless $blog_id && get_config( $blog_id, 'enable' );
 
     push (@{ $param->{ 'field_loop' } }, {
         field_id => 'price',
@@ -34,6 +35,26 @@ sub _hdlr_template_param_edit_entry {
 @{[ $plugin->translate( 'field.hint.price' ) ]}</p>
 __EOF__
     });
+}
+
+sub _hdlr_template_param_list_template {
+    my ( $cb, $app, $param, $tmpl ) = @_;
+    
+    my $blog_id = $app->blog ? $app->blog->id : undef;
+    
+    return unless $blog_id && get_config( $blog_id, 'enable' );
+
+    push @{ $param->{ page_actions } }, {
+        link => $app->uri(
+            'mode' => 'install_mtcart_templates',
+            args => {
+                blog_id => $blog_id,
+                magic_token => $app->current_magic,
+            }
+        ),
+        label => $plugin->translate( 'Install MTCart templates' ),
+        continue_prompt => $plugin->translate( 'Really?' ),
+    };
 }
 
 1;

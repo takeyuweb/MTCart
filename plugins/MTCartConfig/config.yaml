@@ -14,3 +14,9 @@ settings:
   enable:
     default: 0
     scope: blog
+  order_email:
+    default: ""
+    scope: blog
+  order_subject:
+    default: "Order Confirmation"
+    scope: blog

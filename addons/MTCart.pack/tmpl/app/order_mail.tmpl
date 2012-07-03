@@ -1,0 +1,28 @@
+<$MTOrderBy$> 様
+
+ご注文ありがとうございます。
+
+ご注文内容をご確認下さい。
+
+請求先：
+<$MTCartUserName$>
+<$MTCartUserPostalcode$>
+<$MTCartUserAddress1$><$MTCartUserAddress2$>
+
+お届け先：
+<$MTOrderName$>
+<$MTOrderPostalcode$>
+<$MTOrderAddress1$><$MTOrderAddress2$>
+
+お支払い方法：<$MTOrderPayment$>
+配送希望日時：<mt:If tag="OrderDeliveryDateOn"><$MTOrderDeliveryDateOn format="%Y年%m月%d日"$></mt:If><mt:If tag="OrderDeliveryTimezone">（<$MTOrderDeliveryTimezone$>時）</mt:If>
+
+<mt:OrderEntries><$MTOrderEntryTitle$> <$MTOrderEntryPrice numify="1"$>円 x <$MTOrderEntryAmount$> = <$MTOrderEntrySubtotal numify="1"$>円
+</mt:OrderEntries>
+合計 <$MTOrderTotalPrice numify="1"$>円
+
+連絡事項：
+<$MTOrderNote$>
+
+---
+受付日時 <$MTDate format="%Y-%m-%d %H:%M:%S"$>

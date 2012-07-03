@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+  <meta charset="utf-8">
+  <head>
+    <title><$MTBlogName escape="html"$><__trans phrase="Shopping Cart" /></title>
+  </head>
+  <body>
+
+    <div>
+      <mt:CartEntries>
+        <mt:EntriesHeader>
+          <table>
+            <thead>
+              <tr>
+                <th><__trans phrase="app.label.item_name" /></th>
+                <th><__trans phrase="app.label.unit_price" /></th>
+                <th><__trans phrase="app.label.amount" /></th>
+                <th><__trans phrase="app.label.price" /></th>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+      </mt:EntriesHeader>
+              <tr>
+                <td><$MTEntryTitle escape="html"$></td>
+                <td><$MTEntryPrice escape="html" numify="1"$></td>
+                <td><$MTCartEntryAmount numify="1"$></td>
+                <td><$MTCartEntrySubtotal numify="1"$></td>
+                <td></td>
+              </tr>
+      <mt:EntriesFooter>
+              <tr>
+                <td colspan="3"><__trans phrase="app.label.subtotal" /></td>
+                <td><$MTCartSubtotal numify="1"$></td>
+                <td>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </mt:EntriesFooter>
+      </mt:CartEntries>
+    </div>
+
+    <form action="<$MTCartPath$><$MTCartScript$>" method="post">
+      <div style="line-height: 0; height: 0; display: inline; margin: 0; padding: 0;"><input type="hidden" name="blog_id" value="<$MTGetVar name='blog_id' escape='html'$>" /><input type="hidden" name="magic_token" value="<$MTGetVar name='magic_token' escape='html'$>" /><input type="hidden" name="__mode" value="order" /></div>
+
+      <div>
+        <h2>お届け先</h2>
+        <input type="hidden" id="is_gift" name="is_gift" value="<$MTGetVar name='is_gift' escape='html'$>">
+        <table>
+          <tr>
+            <td><label for="name">氏名：</label></td>
+            <td>
+              <input type="hidden" name="name" value="<$MTGetVar name='name' escape='html'$>">
+              <$MTGetVar name="name" escape="html"$>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="postal_1">郵便番号：</label></td>
+            <td>
+              <input type="hidden" name="postal1" value="<$MTGetVar name='postal1' escape='html'$>">
+              <input type="hidden" name="postal2" value="<$MTGetVar name='postal2' escape='html'$>">
+              <$MTGetVar name='postal1' escape='html'$>-<$MTGetVar name='postal2' escape='html'$>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="state">都道府県：</label></td>
+            <td>
+              <input type="hidden" name="state" value="<$MTGetVar name='state' escape='html'$>">
+              <$MTGetVar name='state' escape='html'$>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="address1">住所1：</label></td>
+            <td>
+              <input type="hidden" name="address1" value="<$MTGetVar name='address1' escape='html'$>">
+              <$MTGetVar name='address1' escape='html'$>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="address2">住所2：</label></td>
+            <td>
+              <input type="hidden" name="address2" value="<$MTGetVar name='address2' escape='html'$>">
+              <$MTGetVar name='address2' escape='html'$>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="tel">電話番号：</label></td>
+            <td>
+              <input type="hidden" name="tel" value="<$MTGetVar name='tel' escape='html'$>">
+              <$MTGetVar name='tel' escape='html'$>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div>
+        <h2>お支払・配達方法</h2>
+        <table>
+          <tr>
+            <td><label for="payment">支払い方法</label></td>
+            <td>
+              <mt:loop name="payments">
+                <mt:If name="payment" eq="$__key__">
+                  <input type="hidden" name="payment" value="<$MTGetVar name='__key__' escape='html'$>">
+                  <$MTGetVar name='__value__{label}' escape='html'$>
+                </mt:If>
+              </mt:loop>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="date">日時指定</label></td>
+            <td>
+              <mt:Loop name="dates">
+                <mt:If name="date_on" eq="$__value__">
+                  <input type="hidden" name="date_on" value="<$MTGetVar name='__value__' escape='html'$>"><$MTGetVar name='__value__' escape='html'$>
+                </mt:If>
+              </mt:Loop>
+              <mt:Loop name="timezones">
+                <mt:If name="timezone" eq="$__value__">
+                  <input type="hidden" name="timezone" value="<$MTGetVar name='__value__' escape='html'$>"><$MTGetVar name='__value__' escape='html'$>
+                </mt:If>
+              </mt:Loop>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div>
+        <h2>その他</h2>
+        <table>
+          <tr>
+            <td><label for="note">連絡欄</label></td>
+            <td>
+              <input type="hidden" name="note" value="<$MTGetVar name='note' escape='html'$>">
+              <$MTGetVar name='note' escape='html' nl2br='1'$>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div>
+        <input type="button" onclick="history.back();" value="戻る" />
+        <input type="submit" value="注文を確定する" />
+      </div>
+
+    </form>
+    
+  </body>
+</html>
+
+

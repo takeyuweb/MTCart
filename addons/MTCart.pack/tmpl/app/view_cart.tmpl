@@ -25,10 +25,10 @@
           <table>
             <thead>
               <tr>
-                <th></th>
-                <th><__trans phrase="app.label.price" /></th>
+                <th><__trans phrase="app.label.item_name" /></th>
+                <th><__trans phrase="app.label.unit_price" /></th>
                 <th><__trans phrase="app.label.amount" /></th>
-                <th><__trans phrase="app.label.subtotal" /></th>
+                <th><__trans phrase="app.label.price" /></th>
                 <td></td>
               </tr>
             </thead>
@@ -45,9 +45,7 @@
               </tr>
       <mt:EntriesFooter>
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colspan="3"><__trans phrase="app.label.subtotal" /></td>
                 <td><$MTCartSubtotal numify="1"$></td>
                 <td>
                   <input id="update_button" type="submit" name="__mode" value="update" style="display: none; height: 0; width: 0;"/>

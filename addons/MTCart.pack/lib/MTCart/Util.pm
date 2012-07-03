@@ -11,7 +11,7 @@ use Encode;
 
 use Exporter;
 use base qw/Exporter/;
-our @EXPORT_OK = qw( find_by_sql find_by_sql_iter is_app hmac_sha1 raise_error log_error log_security build_tmpl deserialize_cart_data serialize_cart_data utf8_zen2han );
+our @EXPORT_OK = qw( find_by_sql find_by_sql_iter is_app hmac_sha1 raise_error log_error log_security log_info build_tmpl deserialize_cart_data serialize_cart_data utf8_zen2han cart_subtotal payment_methods payment_method get_config );
 
 # SQL実行
 # 結果セットを カラム名-値ペアの連想配列の配列で返す
@@ -195,12 +195,33 @@ sub log_security {
     do_log( $msg, MT::Log::SECURITY() );
 }
 
-sub build_tmpl {
-    my ( $tmpl_name, $ctx, $param ) = @_;
+sub log_info {
+    my ( $msg ) = @_;
+    require MT::Log;
+    do_log( $msg, MT::Log::INFO() );
+}
 
+
+sub build_tmpl {
+    my ( $tmpl_key, $ctx, $param ) = @_;
+    $tmpl_key =~ s/\.tmpl$//;
+    
     my $app = MT->instance;
     my $blog = $app->blog;
     
+    my $tmpl_name = "$tmpl_key.tmpl";
+
+    my $tmpl = MT->model( 'template' )->load({
+        ( $blog ? ( blog_id     => $blog->id) : ()),
+        identifier  => 'mtcart.'.$tmpl_key
+    }, {
+        limit => 1
+    });
+    unless ( defined $tmpl ) {
+        $tmpl = $app->load_tmpl( $tmpl_name )
+          or return $app->errstr;
+    }
+
     unless ( $ctx ) {
         require MT::Template::Context;
         $ctx = MT::Template::Context->new;
@@ -213,25 +234,36 @@ sub build_tmpl {
         $ctx->stash( blog_id => $blog->id );
     }
     unless ( $ctx->{ current_timestamp } ) {
-        my @ts = offset_time_list( time, $blog->id );
-        my $ts = sprintf "%04d%02d%02d%02d%02d%02d", $ts[5] + 1900, $ts[4] + 1,
-          @ts[ 3, 2, 1, 0 ];
-        $ctx->{ current_timestamp } = $ts;
+        if ( $blog ) {
+            my @ts = offset_time_list( time, $blog->id );
+            my $ts = sprintf "%04d%02d%02d%02d%02d%02d", $ts[5] + 1900, $ts[4] + 1,
+              @ts[ 3, 2, 1, 0 ];
+            $ctx->{ current_timestamp } = $ts;
+        }
     }
 
     $param ||= {};
     $param->{ magic_token } ||=  $app->current_magic;
     $param->{ blog_id } ||= $ctx->stash( 'blog_id' );
     $param->{ mode } ||= $ctx->stash( 'mode' );
-    $ctx->{ __stash}{ vars } =  \( %{ $ctx->{__stash}{vars} }, %$param );
-
-    my $tmpl = $app->load_tmpl( $tmpl_name )
-      or die $app->errstr;
     
-    defined(my $out = $tmpl->build( $ctx ))
-      or die $tmpl->errstr;
+    
+    $app->run_callbacks( 'template_param' . $tmpl_key,
+                         $app, $param, $tmpl );
 
-    $app->translate_templatized( $app->process_mt_template( $out ) );
+    $ctx->{ __stash}{ vars } =  \( %{ $ctx->{__stash}{vars} }, %$param );
+    
+    my $tokens = $tmpl->tokens
+      or return;
+    my $builder = $ctx->{ __stash }{ builder } || MT::Builder->new;
+    my $out = $builder->build( $ctx, $tokens );
+    
+    $out = $app->translate_templatized( $app->process_mt_template( $out ) );
+
+    $app->run_callbacks( 'template_output' . $tmpl_key,
+                         $app, \$out, $param, $tmpl );
+
+    $out;
 }
 
 sub deserialize_cart_data {
@@ -264,6 +296,42 @@ sub utf8_zen2han {
 
     if (!$flag) { Encode::_utf8_off($str); }
     return $str;
+}
+
+sub cart_subtotal {
+    my ( $cart ) = @_;
+    my @ids = keys %$cart;
+    my $terms = { id => \@ids };
+    my @entries = MT->model( 'mtcart.entry' )->load( $terms );
+    my $subtotal = 0;
+    foreach my $entry ( @entries ) {
+        my $amount = $cart->{ $entry->id } || 0;
+        $subtotal += $entry->price * $amount;
+    }
+    $subtotal;
+}
+
+sub payment_methods {
+    my $payments = MT->registry( "payment_methods" ) || {};
+    my %results = ();
+    foreach my $method ( keys %$payments ) {
+        $results{ $method } = {
+            label => $payments->{$method}->{label}->()
+        };
+    }
+
+    return \%results;
+}
+
+sub payment_method {
+    my ( $key ) = @_;
+    payment_methods()->{ $key };
+}
+
+sub get_config {
+    my ( $blog_id, $key ) = @_;
+    my $config_plugin = MT->component('MTCartConfig');
+    $config_plugin->get_config_value( $key, $blog_id ? 'blog:'.$blog_id : 'system');
 }
 
 1;

@@ -6,3 +6,25 @@
   <input id="enable_0" type="radio" name="enable" value="0"<mt:Unless name="enable"> checked="checked"</mt:Unless> />
   <label for="enable_0"><__trans phrase="No" /></label>
 </mtapp:setting>
+<mtapp:setting
+   id="order_email"
+   label="<__trans phrase='config.label.order_email'>"
+   show_hint="1"
+   hint="<__trans phrase='config.hint.order_email'>">
+  <input id="order_email" type="text" name="order_email" value="<$MTGetVar name='order_email' escape='html'$>" />
+</mtapp:setting>
+<mtapp:setting
+   id="order_subject"
+   label="<__trans phrase='config.label.order_subject'>"
+   show_hint="0"
+   hint="<__trans phrase='config.hint.order_subject'>">
+  <input id="order_subject" type="text" name="order_subject" value="<$MTGetVar name='order_subject' escape='html'$>" />
+</mtapp:setting>
+
+<mtapp:setting
+   id="install_templates"
+   label="<__trans phrase='config.label.install_templates'>"
+   show_hint="1"
+   hint="<__trans phrase='config.hint.install_templates'>">
+  <a href="<$MTAdminCGIPath$><$MTAdminScript$>?blog_id=<$MTBlogID$>&__mode=install_mtcart_templates" onclick="return confirm('<__trans phrase='Really?' escape='js'>');"><__trans phrase="Install"></a>
+</mtapp:setting>

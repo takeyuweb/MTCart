@@ -1,0 +1,15 @@
+name: MTCart Payment Plug-in (Bank Transfer)
+id: MTCartPaymentBank
+key: mtcartpaymentbank
+author_name: Yuichi Takeuchi
+author_link: http://takeyu-web.com/
+l10n_class: MTCartPaymentBank::L10N
+description: <__trans phrase="plugin.description">
+version: 0.0.1
+
+payment_methods:
+  bank:
+    label: label
+
+callbacks:
+  mtcart_validation.order: $mtcartpaymentbank::MTCartPaymentBank::Plugin::_cb_mtcart_validation_order

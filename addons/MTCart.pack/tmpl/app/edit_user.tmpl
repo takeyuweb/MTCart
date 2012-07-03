@@ -3,14 +3,14 @@
     <title><$MTBlogName escape="html"$><__trans phrase="Shopping Cart" /></title>
   </head>
   <body>
-    <h1>お客様登録</h1>
+    <h1>お客様情報編集</h1>
     
     <mt:If name="errstr">
       <div class="notice errstr"><$MTGetVar name="errstr" nl2br="1"$></div>
     </mt:If>
 
     <form action="<$MTCartPath$><$MTCartScript$>" method="post">
-      <div style="line-height: 0; height: 0; display: inline; margin: 0; padding: 0;"><input type="hidden" name="blog_id" value="<$MTGetVar name='blog_id' escape='html'$>" /><input type="hidden" name="next" value="<$MTGetVar name='next' escape='html'$>" /><input type="hidden" name="magic_token" value="<$MTGetVar name='magic_token' escape='html'$>" /><input type="hidden" name="__mode" value="do_sign_up" /></div>
+      <div style="line-height: 0; height: 0; display: inline; margin: 0; padding: 0;"><input type="hidden" name="blog_id" value="<$MTGetVar name='blog_id' escape='html'$>" /><input type="hidden" name="next" value="<$MTGetVar name='next' escape='html'$>" /><input type="hidden" name="magic_token" value="<$MTGetVar name='magic_token' escape='html'$>" /><input type="hidden" name="__mode" value="update_user" /></div>
       <table id="sign_up-form">
         <tr>
           <td><label for="delivery_name"><__trans phrase="user.delivery_name"></label></td>
@@ -55,20 +55,20 @@
         </tr>
         <tr>
           <td><label for="email_confirmation"><__trans phrase="app.label.email_confirmation"></label></td>
-          <td><input type="text" id="email_confirmation" name="email_confirmation" class="text-field email-field" value="<$MTGetVar name='email_confirmation' escape='html'$>" /></td>
+          <td><input type="text" id="email_confirmation" name="email_confirmation" class="text-field email-field" value="<$MTGetVar name='email_confirmation' escape='html'$>" /> 変更がない場合は空欄</td>
         </tr>
         <tr>
           <td><label for="password"><__trans phrase="app.label.password"></label></td>
-          <td><input type="password" id="password" name="password" class="password-field" value="<$MTGetVar name='password' escape='html'$>" /></td>
+          <td><input type="password" id="password" name="password" class="password-field" value="<$MTGetVar name='password' escape='html'$>" /> 変更がない場合は空欄</td>
         </tr>
         <tr>
           <td><label for="password_confirmation"><__trans phrase="app.label.password_confirmation"></label></td>
-          <td><input type="password" id="password_confirmation" name="password_confirmation" class="password-field" value="<$MTGetVar name='password_confirmation' escape='html'$>" /></td>
+          <td><input type="password" id="password_confirmation" name="password_confirmation" class="password-field" value="<$MTGetVar name='password_confirmation' escape='html'$>" /> 変更がない場合は空欄</td>
         </tr>
         <tr>
           <th></th>
           <td>
-            <input type="submit" value="<__trans phrase='app.button.sign_up'>" />
+            <input type="submit" value="<__trans phrase='app.button.update_user'>" />
           </td>
         </tr>
       </table>

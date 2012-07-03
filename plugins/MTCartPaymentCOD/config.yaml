@@ -1,0 +1,15 @@
+name: MTCart Payment Plug-in (C.O.D)
+id: MTCartPaymentCOD
+key: mtcartpaymentcod
+author_name: Yuichi Takeuchi
+author_link: http://takeyu-web.com/
+l10n_class: MTCartPaymentCOD::L10N
+description: <__trans phrase="plugin.description">
+version: 0.0.1
+
+payment_methods:
+  cod:
+    label: label
+
+callbacks:
+  mtcart_validation.order: $mtcartpaymentcod::MTCartPaymentCOD::Plugin::_cb_mtcart_validation_order

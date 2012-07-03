@@ -1,0 +1,15 @@
+name: MTCart Payment Plug-in (Postal Transfer)
+id: MTCartPaymentPostal
+key: mtcartpaymentpostal
+author_name: Yuichi Takeuchi
+author_link: http://takeyu-web.com/
+l10n_class: MTCartPaymentPostal::L10N
+description: <__trans phrase="plugin.description">
+version: 0.0.1
+
+payment_methods:
+  postal:
+    label: label
+
+callbacks:
+  mtcart_validation.order: $mtcartpaymentpostal::MTCartPaymentPostal::Plugin::_cb_mtcart_validation_order

@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <title><$MTBlogName escape="html"$><__trans phrase="Shopping Cart" /></title>
+  </head>
+  <body>
+  <p>以下の内容で注文を承りました。</p>
+
+請求先：<br />
+<$MTOrderBillingUserName$><br />
+
+<mt:OrderBillingUser>
+<$MTCartUserPostalcode$><br />
+<$MTCartUserAddress1$><$MTCartUserAddress2$><br />
+</mt:OrderBillingUser>
+          <br />
+お届け先：<br />
+  <$MTOrderName$><br />
+<$MTOrderPostalcode$><br />
+<$MTOrderAddress1$><$MTOrderAddress2$><br />
+<br />
+お支払い方法：<$MTOrderPayment$><br />
+配送希望日時：<mt:If tag="OrderDeliveryDateOn"><$MTOrderDeliveryDateOn format="%Y年%m月%d日"$></mt:If><mt:If tag="OrderDeliveryTimezone">（<$MTOrderDeliveryTimezone$>時）</mt:If><br />
+<br />
+<mt:OrderEntries><$MTOrderEntryTitle$> <$MTOrderEntryPrice numify="1"$>円 x <$MTOrderEntryAmount$> = <$MTOrderEntrySubtotal numify="1"$>円<br />
+</mt:OrderEntries>
+合計 <$MTOrderTotalPrice numify="1"$>円<br />
+  <br />
+連絡事項：<br />
+<$MTOrderNote escape="html" nl2br="1"$>
+<br />
+<br />
+<a href="<$MTBlogURL escape='html'$>">トップページへ</a>
+
+  </body>
+</html>
+
