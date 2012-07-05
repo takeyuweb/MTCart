@@ -21,6 +21,8 @@ sub _hdlr_template_param_edit_entry {
 
     return unless $blog_id && get_config( $blog_id, 'enable' );
 
+    return unless $app->param( '_type' ) && $app->param( '_type' ) eq 'entry';
+
     push (@{ $param->{ 'field_loop' } }, {
         field_id => 'price',
         lock_field => '0',

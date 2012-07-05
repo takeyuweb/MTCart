@@ -3,7 +3,7 @@ id: MTCart
 key: mtcart
 author_name: Yuichi Takeuchi
 author_link: http://takeyu-web.com/
-version: 0.0.1
+version: 0.0.2
 schema_version: 0.015
 l10n_class: MTCart::L10N
 
