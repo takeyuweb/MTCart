@@ -215,10 +215,11 @@ sub load {
                 id => $terms,
                 auth_type => 'MTCart',
             };
+            return $user->SUPER::load( $terms, $args );
         } else {
             local $terms->{ auth_type } = 'MTCart';
+            return $user->SUPER::load( $terms, $args );
         }
-        return $user->SUPER::load( $terms, $args );
     }
 }
 
@@ -239,12 +240,38 @@ sub load_iter {
                 id => $terms,
                 auth_type => 'MTCart',
             };
+            return $user->SUPER::load_iter( $terms, $args );
           } else {
               local $terms->{ auth_type } = 'MTCart';
+              return $user->SUPER::load_iter( $terms, $args );
           }
-        return $user->SUPER::load_iter( $terms, $args );
     }
 }
 
+sub count {
+    my $user = shift;
+    my ( $terms, $args ) = @_;
+
+    if ( defined $terms
+           && ( !ref $terms || ( ref $terms ne 'HASH' && ref $terms ne 'ARRAY' ) ) ) {
+        $terms = {
+            id => $terms,
+            auth_type => 'MTCart',
+        };
+        $args = {};
+        return $user->SUPER::count( $terms, $args );
+    } else {
+        if ( ref $terms eq 'ARRAY' ) {
+            $terms = {
+                id => $terms,
+                auth_type => 'MTCart',
+            };
+            return $user->SUPER::count( $terms, $args );
+        } else {
+            local $terms->{ auth_type } = 'MTCart';
+            return $user->SUPER::count( $terms, $args );
+        }
+    }
+}
 
 1;
