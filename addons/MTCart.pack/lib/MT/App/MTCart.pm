@@ -87,7 +87,11 @@ sub _get_secret {
     my $app = shift;
     my $secret = $app->config->CartCookieSecret;
     my $component = MT->component( 'MTCart' );
-    $app->_error( 'app.message.no_secret' ) unless $secret;
+    unless ( $secret ) {
+        log_error( $component->translate( 'app.message.no_secret' ) );
+        $app->{no_print_body} = 1;
+        die 'app.message.no_secret';
+    }
     $secret;
 }
 

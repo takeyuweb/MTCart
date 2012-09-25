@@ -88,9 +88,10 @@ sub validate_email_confirmation {
 sub delivery_postal1 {
     my $order = shift;
     if ( @_ ) {
-        $_[0] =~ s/\s//g;
-        $_[0] = utf8_zen2han( $_[0] );
-        $order->{ __delivery_postal1 } = $_[0];
+        my $str = $_[0];
+        $str =~ s/\s//g;
+        $str = utf8_zen2han( $_[0] );
+        $order->{ __delivery_postal1 } = $str;
     } else {
         unless ( exists $order->{ __delivery_postal1 } ) {
             $order->delivery_postal =~ /^(\d{3})-(\d{4})$/;
@@ -98,14 +99,15 @@ sub delivery_postal1 {
         }
     }
     return $order->{ __delivery_postal1 };
-}  
+}
 
 sub delivery_postal2 {
     my $order = shift;
     if ( @_ ) {
-        $_[0] =~ s/\s//g;
-        $_[0] = utf8_zen2han( $_[0] );
-        $order->{ __delivery_postal2 } = $_[0];
+        my $str = $_[0];
+        $str =~ s/\s//g;
+        $str = utf8_zen2han( $_[0] );
+        $order->{ __delivery_postal2 } = $str;
     } else {
         unless ( exists $order->{ __delivery_postal2 } ) {
             $order->delivery_postal =~ /^(\d{3})-(\d{4})$/;
@@ -113,8 +115,7 @@ sub delivery_postal2 {
         }
     }
     return $order->{ __delivery_postal2 };
-}  
-
+}
 
 sub is_valid {
     my $user = shift;
